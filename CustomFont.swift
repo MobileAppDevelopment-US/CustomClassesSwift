@@ -19,3 +19,4 @@ extension UIFont {
         return self.fontDescriptor.symbolicTraits.contains(.traitBold)
     }
 }
+
