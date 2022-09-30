@@ -7,7 +7,147 @@
 
 import UIKit
 
-class CustomAlertController {
+import UIKit
+
+//let alert = BarenKocaCustomAlertController(view: self.view,
+//                                           alertTitle: "1",
+//                                           buttonTitle1: "1",
+//                                           imageViewName1: "beren_koca_ic_update",
+//                                           buttonTitle2: "1",
+//                                           imageViewName2: "beren_koca_ic_share",
+//                                           buttonTitle3: "1",
+//                                           imageViewName3: "beren_koca_ic_delete")
+//    .createAlertBarenKoca()
+//self.present(alert, animated: true, completion: nil)
+
+// image left side
+
+class BarenKocaCustomAlertController {
+    
+    var alert: UIAlertController!
+    var view: UIView!
+    var alertTitle: String!
+    var buttonTitle1: String!
+    var buttonTitle2: String!
+    var buttonTitle3: String!
+
+    var imageViewName1: String!
+    var imageViewName2: String!
+    var imageViewName3: String!
+    
+    var handler1 = {}
+    var handler2 = {}
+    var handler3 = {}
+    
+    let keyTextColor = "titleTextColor"
+    let keyAttributedTitle = "attributedTitle"
+    let titleTextAlignment = "titleTextAlignment"
+    
+    var selectedNumber: Int?
+    
+    var titleTextColor: UIColor {
+        UIColor.appColorBerenKoca(.AppGrayTextColor)!
+    }
+    
+    var textColor: UIColor {
+        UIColor.appColorBerenKoca(.WhiteColor)!
+    }
+    
+    var primaryColor: UIColor {
+        UIColor.appColorBerenKoca(.AppBlueColor)!
+    }
+
+    init(view: UIView,
+         alertTitle: String,
+         buttonTitle1: String,
+         imageViewName1: String? = nil,
+         buttonTitle2: String,
+         imageViewName2: String? = nil,
+         buttonTitle3: String,
+         imageViewName3: String? = nil) {
+        
+        self.view = view
+        self.alertTitle = alertTitle
+        self.buttonTitle1 = buttonTitle1
+        self.imageViewName1 = imageViewName1
+        self.buttonTitle2 = buttonTitle2
+        self.imageViewName2 = imageViewName2
+        self.buttonTitle3 = buttonTitle3
+        self.imageViewName3 = imageViewName3
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func createAlertBarenKoca() -> UIAlertController {
+       
+        alert = UIAlertController(title: "",
+                                  message: nil,
+                                  preferredStyle: .actionSheet)
+        if #available(iOS 13.0, *) {
+            alert.overrideUserInterfaceStyle = .dark
+        }
+        // title
+        let attributedString = NSAttributedString(string: alertTitle,
+                                                  attributes: [.font : UIFont.systemFont(ofSize: 13.0),
+                                                               .foregroundColor : titleTextColor])
+        alert.setValue(attributedString, forKey: keyAttributedTitle)
+        
+        // button 1
+        let action1 = UIAlertAction(title: buttonTitle1,
+                                    style: .default,
+                                    handler: { _ in self.handler1() })
+        action1.setValue(textColor, forKey: keyTextColor)
+        action1.setValue(#imageLiteral(resourceName: imageViewName1), forKey: "image")
+        action1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
+
+        // button 2
+        let action2 = UIAlertAction(title: buttonTitle2,
+                                    style: .default,
+                                    handler: { _ in self.handler2() })
+        action2.setValue(textColor, forKey: keyTextColor)
+        action2.setValue(#imageLiteral(resourceName: imageViewName2), forKey: "image")
+        action2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
+        // button 3
+        let action3 = UIAlertAction(title: buttonTitle3,
+                                    style: .default,
+                                    handler: { _ in self.handler3() })
+        action3.setValue(textColor, forKey: keyTextColor)
+        action3.setValue(#imageLiteral(resourceName: imageViewName3), forKey: "image")
+        action3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
+        alert.addAction(action1)
+        alert.addAction(action2)
+        alert.addAction(action3)
+        
+        // Cancel
+        let cancelAlert = UIAlertAction(title: BerenKocaSingleton.sharedBerenKoca().getStringBerenKoca("CancelBerenKoca"),
+                                        style: .cancel,
+                                        handler: nil)
+        cancelAlert.setValue(primaryColor, forKey: keyTextColor)
+        alert.addAction(cancelAlert)
+
+        createAlertForiPad()
+        return alert
+    }
+    
+    private func createAlertForiPad() {
+        
+        if let popoverController = alert.popoverPresentationController {
+           popoverController.sourceView = view
+           popoverController.sourceRect = CGRect(x: view.bounds.midX,
+                                                 y: view.bounds.midY,
+                                                 width: .zero,
+                                                 height: .zero)
+           popoverController.permittedArrowDirections = []
+         }
+    }
+}
+
+class CustomAlertController2 {
     
     var alert: UIAlertController!
     var view: UIView!
